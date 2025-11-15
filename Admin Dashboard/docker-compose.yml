@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  admin-dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:8000}
+        VITE_WS_URL: ${VITE_WS_URL:-http://localhost:8000}
+        VITE_MAPBOX_TOKEN: ${VITE_MAPBOX_TOKEN}
+        VITE_USE_MOCK_DATA: ${VITE_USE_MOCK_DATA:-false}
+    ports:
+      - "3000:80"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Optional: Include backend service if running full stack
+  # backend:
+  #   image: aeras-backend:latest
+  #   ports:
+  #     - "8000:8000"
+  #   environment:
+  #     - DATABASE_URL=postgresql://user:password@db:5432/aeras
+  #   depends_on:
+  #     - db
+
+  # Optional: Database
+  # db:
+  #   image: postgres:15-alpine
+  #   environment:
+  #     - POSTGRES_USER=aeras
+  #     - POSTGRES_PASSWORD=aeras_password
+  #     - POSTGRES_DB=aeras
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+
+# volumes:
+#   postgres_data:
+

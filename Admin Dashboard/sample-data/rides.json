@@ -1,0 +1,84 @@
+[
+  {
+    "id": "ride_001",
+    "userId": "usr_001",
+    "userName": "John Okello",
+    "pullerId": "plr_001",
+    "pullerName": "James Ssemakula",
+    "pickupLocation": {
+      "latitude": 0.3341,
+      "longitude": 32.5702,
+      "blockId": "blk_001",
+      "address": "Makerere Main Gate, Kampala"
+    },
+    "dropoffLocation": {
+      "latitude": 0.3255,
+      "longitude": 32.5989,
+      "blockId": "blk_006",
+      "address": "Kololo Shopping Center, Kampala"
+    },
+    "status": "completed",
+    "points": 25,
+    "requestedAt": "2024-11-13T08:30:00Z",
+    "acceptedAt": "2024-11-13T08:31:00Z",
+    "completedAt": "2024-11-13T08:49:00Z",
+    "distance": 3.2,
+    "duration": 18,
+    "gpsPath": [
+      { "latitude": 0.3341, "longitude": 32.5702 },
+      { "latitude": 0.3320, "longitude": 32.5750 },
+      { "latitude": 0.3290, "longitude": 32.5850 },
+      { "latitude": 0.3255, "longitude": 32.5989 }
+    ]
+  },
+  {
+    "id": "ride_002",
+    "userId": "usr_002",
+    "userName": "Sarah Namukasa",
+    "pullerId": "plr_002",
+    "pullerName": "Peter Kato",
+    "pickupLocation": {
+      "latitude": 0.3356,
+      "longitude": 32.5689,
+      "blockId": "blk_002",
+      "address": "Wandegeya Market, Kampala"
+    },
+    "dropoffLocation": {
+      "latitude": 0.3489,
+      "longitude": 32.6034,
+      "blockId": "blk_008",
+      "address": "Bukoto Square, Kampala"
+    },
+    "status": "in-transit",
+    "points": 30,
+    "requestedAt": "2024-11-13T09:15:00Z",
+    "acceptedAt": "2024-11-13T09:16:00Z",
+    "distance": 4.5,
+    "gpsPath": [
+      { "latitude": 0.3356, "longitude": 32.5689 },
+      { "latitude": 0.3380, "longitude": 32.5780 },
+      { "latitude": 0.3420, "longitude": 32.5920 }
+    ]
+  },
+  {
+    "id": "ride_003",
+    "userId": "usr_003",
+    "userName": "David Musoke",
+    "pickupLocation": {
+      "latitude": 0.3371,
+      "longitude": 32.6158,
+      "blockId": "blk_003",
+      "address": "Nakawa Market, Kampala"
+    },
+    "dropoffLocation": {
+      "latitude": 0.3569,
+      "longitude": 32.6267,
+      "blockId": "blk_004",
+      "address": "Ntinda Complex, Kampala"
+    },
+    "status": "waiting",
+    "points": 35,
+    "requestedAt": "2024-11-13T09:20:00Z"
+  }
+]
+

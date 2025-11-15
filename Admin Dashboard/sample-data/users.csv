@@ -1,0 +1,12 @@
+id,name,email,phone,points,role,status,blockId,createdAt
+usr_001,John Okello,john.okello@example.com,+256700123456,450,user,active,blk_001,2024-01-15T08:00:00Z
+usr_002,Sarah Namukasa,sarah.n@example.com,+256700234567,320,user,active,blk_002,2024-01-20T10:30:00Z
+usr_003,David Musoke,david.m@example.com,+256700345678,150,user,suspended,blk_003,2024-02-01T14:15:00Z
+usr_004,Grace Nakato,grace.n@example.com,+256700456789,580,user,active,blk_004,2024-01-10T09:20:00Z
+usr_005,Patrick Wasswa,patrick.w@example.com,+256700567890,210,user,active,blk_005,2024-02-15T11:45:00Z
+plr_001,James Ssemakula,james.s@example.com,+256700111222,2450,puller,active,blk_001,2023-12-01T08:00:00Z
+plr_002,Peter Kato,peter.k@example.com,+256700222333,3120,puller,active,blk_002,2023-11-15T10:00:00Z
+plr_003,Moses Mukasa,moses.m@example.com,+256700333444,1890,puller,active,blk_003,2024-01-05T07:30:00Z
+plr_004,Francis Wasswa,francis.w@example.com,+256700444555,2780,puller,active,blk_004,2023-12-20T09:00:00Z
+plr_005,Robert Nsubuga,robert.n@example.com,+256700555666,1560,puller,active,blk_005,2024-01-25T08:15:00Z
+
