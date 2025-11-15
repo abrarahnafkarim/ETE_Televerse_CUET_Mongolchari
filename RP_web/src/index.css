@@ -1,0 +1,101 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-gray-50 text-gray-900 antialiased;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  #root {
+    @apply min-h-screen;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .touch-pan-y {
+    touch-action: pan-y;
+  }
+
+  .touch-none {
+    touch-action: none;
+  }
+}
+
+/* Mobile optimizations */
+@media (max-width: 640px) {
+  body {
+    @apply text-base;
+  }
+}
+
+/* Prevent zoom on input focus on iOS */
+@media screen and (max-width: 768px) {
+  input[type="text"],
+  input[type="number"],
+  input[type="email"],
+  input[type="tel"],
+  textarea,
+  select {
+    font-size: 16px !important;
+  }
+}
+
+/* Loading spinner */
+.spinner {
+  border: 3px solid rgba(0, 0, 0, 0.1);
+  border-top: 3px solid #0ea5e9;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Pulse animation for notifications */
+.pulse-ring {
+  animation: pulse-ring 1.25s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.33);
+  }
+  80%, 100% {
+    opacity: 0;
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.33);
+  }
+  40%, 50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.2);
+  }
+}
+
