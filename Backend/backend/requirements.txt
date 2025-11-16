@@ -1,0 +1,8 @@
+fastapi
+uvicorn[standard]
+redis>=5.3
+asyncpg
+databases[postgresql]
+paho-mqtt
+python-dotenv
+requests

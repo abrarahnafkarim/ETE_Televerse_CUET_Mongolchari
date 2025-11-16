@@ -1,0 +1,46 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AERAS Base Message Schema",
+  "description": "Base schema for all AERAS MQTT messages",
+  "type": "object",
+  "required": ["messageId", "timestamp", "version", "senderId", "type"],
+  "properties": {
+    "messageId": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique message identifier (UUID v4)"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+$",
+      "description": "Message schema version (e.g., '1.0')"
+    },
+    "senderId": {
+      "type": "string",
+      "pattern": "^(BLK-|DRV-|ADM-|SYSTEM)",
+      "description": "Sender identifier (BLK-xxx, DRV-xxx, ADM-xxx, or SYSTEM)"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "request",
+        "offer",
+        "accept",
+        "reject",
+        "pickup",
+        "drop",
+        "location",
+        "heartbeat",
+        "points_update",
+        "admin_command"
+      ],
+      "description": "Message type"
+    }
+  }
+}
+

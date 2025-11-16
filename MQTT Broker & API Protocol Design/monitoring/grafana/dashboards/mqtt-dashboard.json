@@ -1,0 +1,89 @@
+{
+  "dashboard": {
+    "title": "AERAS MQTT Broker Dashboard",
+    "tags": ["mqtt", "aeras"],
+    "timezone": "browser",
+    "schemaVersion": 27,
+    "version": 1,
+    "refresh": "10s",
+    "panels": [
+      {
+        "id": 1,
+        "title": "Active Connections",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "emqx_connections_count",
+            "legendFormat": "Connections"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 0}
+      },
+      {
+        "id": 2,
+        "title": "Messages Per Second",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(emqx_messages_received_total[1m])",
+            "legendFormat": "Received"
+          },
+          {
+            "expr": "rate(emqx_messages_sent_total[1m])",
+            "legendFormat": "Sent"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 0}
+      },
+      {
+        "id": 3,
+        "title": "Message Latency (p95)",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, emqx_message_delivery_duration_seconds_bucket)",
+            "legendFormat": "p95 Latency"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 8}
+      },
+      {
+        "id": 4,
+        "title": "Queue Depth",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "emqx_queue_length",
+            "legendFormat": "Queue Size"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 8}
+      },
+      {
+        "id": 5,
+        "title": "Error Rate",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(emqx_errors_total[1m])",
+            "legendFormat": "Errors/sec"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 0, "y": 16}
+      },
+      {
+        "id": 6,
+        "title": "Device Status",
+        "type": "table",
+        "targets": [
+          {
+            "expr": "emqx_clients_connected",
+            "legendFormat": "Connected Devices"
+          }
+        ],
+        "gridPos": {"h": 8, "w": 12, "x": 12, "y": 16}
+      }
+    ]
+  }
+}
+

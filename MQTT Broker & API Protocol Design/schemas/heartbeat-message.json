@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AERAS Heartbeat Message Schema",
+  "description": "Schema for device heartbeat messages",
+  "type": "object",
+  "allOf": [
+    { "$ref": "message-base.json" }
+  ],
+  "properties": {
+    "type": {
+      "const": "heartbeat"
+    },
+    "payload": {
+      "type": "object",
+      "required": [
+        "deviceType",
+        "deviceId",
+        "status"
+      ],
+      "properties": {
+        "deviceType": {
+          "type": "string",
+          "enum": ["block", "driver", "admin"]
+        },
+        "deviceId": {
+          "type": "string",
+          "pattern": "^(BLK-|DRV-|ADM-)[0-9]+$"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["online", "offline", "maintenance"]
+        },
+        "batteryLevel": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 100,
+          "description": "Battery level percentage"
+        },
+        "signalStrength": {
+          "type": "integer",
+          "maximum": 0,
+          "description": "Signal strength in dBm"
+        },
+        "uptime": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Device uptime in seconds"
+        }
+      }
+    }
+  }
+}
+

@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AERAS Location Message Schema",
+  "description": "Schema for driver location updates",
+  "type": "object",
+  "allOf": [
+    { "$ref": "message-base.json" }
+  ],
+  "properties": {
+    "type": {
+      "const": "location"
+    },
+    "payload": {
+      "type": "object",
+      "required": [
+        "latitude",
+        "longitude",
+        "timestamp"
+      ],
+      "properties": {
+        "latitude": {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90
+        },
+        "longitude": {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        },
+        "altitude": {
+          "type": "number",
+          "description": "Altitude in meters"
+        },
+        "accuracy": {
+          "type": "number",
+          "minimum": 0,
+          "description": "GPS accuracy in meters"
+        },
+        "heading": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 360,
+          "description": "Heading in degrees"
+        },
+        "speed": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Speed in km/h"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}
+

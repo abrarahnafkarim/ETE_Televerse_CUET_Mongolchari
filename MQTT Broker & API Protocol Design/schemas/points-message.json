@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AERAS Points Update Message Schema",
+  "description": "Schema for driver points updates",
+  "type": "object",
+  "allOf": [
+    { "$ref": "message-base.json" }
+  ],
+  "properties": {
+    "type": {
+      "const": "points_update"
+    },
+    "payload": {
+      "type": "object",
+      "required": [
+        "driverId",
+        "pointsEarned",
+        "pointsTotal",
+        "transactionId",
+        "reason"
+      ],
+      "properties": {
+        "driverId": {
+          "type": "string",
+          "pattern": "^DRV-[0-9]{4}$"
+        },
+        "tripId": {
+          "type": "string",
+          "pattern": "^TRP-[0-9]{8}-[0-9]{3}$"
+        },
+        "pointsEarned": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "pointsTotal": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "transactionId": {
+          "type": "string",
+          "pattern": "^TXN-[0-9]{8}-[0-9]{3}$"
+        },
+        "reason": {
+          "type": "string",
+          "enum": [
+            "trip_completed",
+            "bonus",
+            "referral",
+            "adjustment",
+            "penalty"
+          ]
+        }
+      }
+    }
+  }
+}
+

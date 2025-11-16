@@ -1,0 +1,107 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AERAS Offer Message Schema",
+  "description": "Schema for driver offer messages",
+  "type": "object",
+  "allOf": [
+    { "$ref": "message-base.json" }
+  ],
+  "properties": {
+    "type": {
+      "const": "offer"
+    },
+    "payload": {
+      "type": "object",
+      "required": [
+        "offerId",
+        "requestId",
+        "driverLocation",
+        "estimatedArrival",
+        "fare"
+      ],
+      "properties": {
+        "offerId": {
+          "type": "string",
+          "pattern": "^OFF-[0-9]{8}-[0-9]{3}$"
+        },
+        "requestId": {
+          "type": "string",
+          "pattern": "^REQ-[0-9]{8}-[0-9]{3}$"
+        },
+        "driverLocation": {
+          "$ref": "#/definitions/coordinates"
+        },
+        "estimatedArrival": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Estimated arrival time in seconds"
+        },
+        "fare": {
+          "$ref": "#/definitions/fare"
+        },
+        "vehicleInfo": {
+          "type": "object",
+          "required": ["type", "licensePlate", "capacity"],
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": ["standard", "premium", "xl", "accessible"]
+            },
+            "licensePlate": {
+              "type": "string",
+              "pattern": "^[A-Z0-9-]+$"
+            },
+            "capacity": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 8
+            }
+          }
+        },
+        "driverRating": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 5
+        },
+        "expiresAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "coordinates": {
+      "type": "object",
+      "required": ["latitude", "longitude"],
+      "properties": {
+        "latitude": {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90
+        },
+        "longitude": {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        }
+      }
+    },
+    "fare": {
+      "type": "object",
+      "required": ["amount", "currency"],
+      "properties": {
+        "amount": {
+          "type": "number",
+          "minimum": 0
+        },
+        "currency": {
+          "type": "string",
+          "pattern": "^[A-Z]{3}$",
+          "default": "USD"
+        }
+      }
+    }
+  }
+}
+

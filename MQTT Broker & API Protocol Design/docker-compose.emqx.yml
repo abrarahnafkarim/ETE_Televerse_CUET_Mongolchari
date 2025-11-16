@@ -1,0 +1,110 @@
+version: '3.8'
+
+services:
+  emqx:
+    image: emqx/emqx:5.3.0
+    container_name: aeras-emqx
+    restart: unless-stopped
+    ports:
+      - "1883:1883"      # MQTT
+      - "8883:8883"      # MQTTS
+      - "8083:8083"      # HTTP API
+      - "8084:8084"      # HTTPS API
+      - "18083:18083"    # Dashboard
+      - "9001:9001"      # WebSocket
+    volumes:
+      - ./emqx/data:/opt/emqx/data
+      - ./emqx/log:/opt/emqx/log
+      - ./emqx/etc:/opt/emqx/etc
+      - ./certs/server:/opt/emqx/etc/certs/server:ro
+      - ./certs/ca:/opt/emqx/etc/certs/ca:ro
+      - ./emqx/acl.conf:/opt/emqx/etc/acl.conf:ro
+    environment:
+      - EMQX_NAME=emqx
+      - EMQX_HOST=localhost
+      - EMQX_CLUSTER__DISCOVERY_STRATEGY=static
+      - EMQX_CLUSTER__STATIC__SEEDS=emqx@127.0.0.1
+      # TLS Configuration
+      - EMQX_LISTENERS__SSL__DEFAULT__ENABLED=true
+      - EMQX_LISTENERS__SSL__DEFAULT__ACCEPTORS=16
+      - EMQX_LISTENERS__SSL__DEFAULT__TCP__OPTIONS__SO_REUSEADDR=true
+      - EMQX_LISTENERS__SSL__DEFAULT__TCP__OPTIONS__SO_REUSEPORT=true
+      - EMQX_LISTENERS__SSL__DEFAULT__SSL__OPTIONS__CACERTFILE=/opt/emqx/etc/certs/ca/ca.crt
+      - EMQX_LISTENERS__SSL__DEFAULT__SSL__OPTIONS__CERTFILE=/opt/emqx/etc/certs/server/server.crt
+      - EMQX_LISTENERS__SSL__DEFAULT__SSL__OPTIONS__KEYFILE=/opt/emqx/etc/certs/server/server.key
+      - EMQX_LISTENERS__SSL__DEFAULT__SSL__OPTIONS__VERIFY=verify_peer
+      - EMQX_LISTENERS__SSL__DEFAULT__SSL__OPTIONS__FAIL_IF_NO_PEER_CERT=true
+      # Authentication
+      - EMQX_AUTHENTICATION__1__MECHANISM=password_based
+      - EMQX_AUTHENTICATION__1__BACKEND=built_in_database
+      - EMQX_AUTHENTICATION__1__ENABLE=true
+      # JWT Authentication
+      - EMQX_AUTHENTICATION__2__MECHANISM=jwt
+      - EMQX_AUTHENTICATION__2__JWT__SECRET=your_jwt_secret_key_change_in_production
+      - EMQX_AUTHENTICATION__2__JWT__FROM=password
+      - EMQX_AUTHENTICATION__2__ENABLE=true
+      # Rate Limiting
+      - EMQX_RATE_LIMIT__CONN_MESSAGES_IN__MAXIMUM=100
+      - EMQX_RATE_LIMIT__CONN_MESSAGES_IN__BURST=10
+      - EMQX_RATE_LIMIT__CONN_BYTES_IN__MAXIMUM=1048576
+      # ACL
+      - EMQX_AUTHORIZATION__SOURCES__1__TYPE=file
+      - EMQX_AUTHORIZATION__SOURCES__1__ENABLE=true
+      - EMQX_AUTHORIZATION__SOURCES__1__FILE__RULES=/opt/emqx/etc/acl.conf
+      # Performance
+      - EMQX_ZONE__DEFAULT__MAX_INFLIGHT=100
+      - EMQX_ZONE__DEFAULT__MAX_MQUEUE_LEN=1000
+      - EMQX_ZONE__DEFAULT__MESSAGE_EXPIRY_INTERVAL=3600s
+      # Dashboard
+      - EMQX_DASHBOARD__DEFAULT_USERNAME=admin
+      - EMQX_DASHBOARD__DEFAULT_PASSWORD=change_me_in_production
+    networks:
+      - aeras-network
+    healthcheck:
+      test: ["CMD", "/opt/emqx/bin/emqx", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: aeras-prometheus
+    restart: unless-stopped
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - prometheus-data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    networks:
+      - aeras-network
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: aeras-grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - grafana-data:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards:ro
+      - ./monitoring/grafana/datasources:/etc/grafana/provisioning/datasources:ro
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=change_me_in_production
+      - GF_USERS_ALLOW_SIGN_UP=false
+    networks:
+      - aeras-network
+    depends_on:
+      - prometheus
+
+volumes:
+  prometheus-data:
+  grafana-data:
+
+networks:
+  aeras-network:
+    driver: bridge
+

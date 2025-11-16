@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AERAS Accept Message Schema",
+  "description": "Schema for accepting a driver offer",
+  "type": "object",
+  "allOf": [
+    { "$ref": "message-base.json" }
+  ],
+  "properties": {
+    "type": {
+      "const": "accept"
+    },
+    "payload": {
+      "type": "object",
+      "required": [
+        "requestId",
+        "offerId",
+        "driverId",
+        "tripId",
+        "acceptedAt"
+      ],
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "pattern": "^REQ-[0-9]{8}-[0-9]{3}$"
+        },
+        "offerId": {
+          "type": "string",
+          "pattern": "^OFF-[0-9]{8}-[0-9]{3}$"
+        },
+        "driverId": {
+          "type": "string",
+          "pattern": "^DRV-[0-9]{4}$"
+        },
+        "tripId": {
+          "type": "string",
+          "pattern": "^TRP-[0-9]{8}-[0-9]{3}$"
+        },
+        "acceptedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  }
+}
+

@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AERAS Request Message Schema",
+  "description": "Schema for ride request messages from blocks",
+  "type": "object",
+  "allOf": [
+    { "$ref": "message-base.json" }
+  ],
+  "properties": {
+    "type": {
+      "const": "request"
+    },
+    "payload": {
+      "type": "object",
+      "required": [
+        "requestId",
+        "pickupLocation",
+        "dropoffLocation",
+        "passengerCount"
+      ],
+      "properties": {
+        "requestId": {
+          "type": "string",
+          "pattern": "^REQ-[0-9]{8}-[0-9]{3}$",
+          "description": "Unique request identifier"
+        },
+        "pickupLocation": {
+          "$ref": "#/definitions/location"
+        },
+        "dropoffLocation": {
+          "$ref": "#/definitions/location"
+        },
+        "passengerCount": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 8
+        },
+        "vehicleType": {
+          "type": "string",
+          "enum": ["standard", "premium", "xl", "accessible"],
+          "default": "standard"
+        },
+        "priority": {
+          "type": "string",
+          "enum": ["low", "normal", "high", "emergency"],
+          "default": "normal"
+        },
+        "maxWaitTime": {
+          "type": "integer",
+          "minimum": 60,
+          "maximum": 3600,
+          "description": "Maximum wait time in seconds"
+        },
+        "estimatedDistance": {
+          "type": "number",
+          "minimum": 0,
+          "description": "Estimated distance in kilometers"
+        },
+        "estimatedDuration": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Estimated duration in seconds"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "location": {
+      "type": "object",
+      "required": ["latitude", "longitude"],
+      "properties": {
+        "latitude": {
+          "type": "number",
+          "minimum": -90,
+          "maximum": 90
+        },
+        "longitude": {
+          "type": "number",
+          "minimum": -180,
+          "maximum": 180
+        },
+        "address": {
+          "type": "string",
+          "maxLength": 200
+        }
+      }
+    }
+  }
+}
+

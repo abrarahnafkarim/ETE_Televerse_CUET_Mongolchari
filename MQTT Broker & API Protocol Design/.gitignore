@@ -1,0 +1,54 @@
+# Certificates and Keys (NEVER commit these!)
+certs/**/*.key
+certs/**/*.crt
+certs/**/*.csr
+certs/**/*.pem
+*.pem
+*.key
+*.crt
+*.csr
+
+# Passwords and Secrets
+**/passwd
+**/passwords.txt
+*.secret
+.env
+.env.local
+.env.production
+
+# Logs
+**/*.log
+logs/
+mosquitto/log/
+emqx/log/
+
+# Data directories
+mosquitto/data/
+emqx/data/
+*.db
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# Docker
+docker-compose.override.yml
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Backup files
+*.bak
+*.backup
+backup/
+

@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AERAS Drop Message Schema",
+  "description": "Schema for passenger dropoff confirmation",
+  "type": "object",
+  "allOf": [
+    { "$ref": "message-base.json" }
+  ],
+  "properties": {
+    "type": {
+      "const": "drop"
+    },
+    "payload": {
+      "type": "object",
+      "required": [
+        "tripId",
+        "requestId",
+        "dropoffLocation",
+        "dropoffTime",
+        "tripSummary"
+      ],
+      "properties": {
+        "tripId": {
+          "type": "string",
+          "pattern": "^TRP-[0-9]{8}-[0-9]{3}$"
+        },
+        "requestId": {
+          "type": "string",
+          "pattern": "^REQ-[0-9]{8}-[0-9]{3}$"
+        },
+        "dropoffLocation": {
+          "type": "object",
+          "required": ["latitude", "longitude", "timestamp"],
+          "properties": {
+            "latitude": {
+              "type": "number",
+              "minimum": -90,
+              "maximum": 90
+            },
+            "longitude": {
+              "type": "number",
+              "minimum": -180,
+              "maximum": 180
+            },
+            "timestamp": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "dropoffTime": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "tripSummary": {
+          "type": "object",
+          "required": ["distance", "duration", "fare"],
+          "properties": {
+            "distance": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Distance in kilometers"
+            },
+            "duration": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Duration in seconds"
+            },
+            "fare": {
+              "type": "object",
+              "required": ["amount", "currency"],
+              "properties": {
+                "amount": {
+                  "type": "number",
+                  "minimum": 0
+                },
+                "currency": {
+                  "type": "string",
+                  "pattern": "^[A-Z]{3}$",
+                  "default": "USD"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
